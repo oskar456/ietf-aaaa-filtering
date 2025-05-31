@@ -23,7 +23,7 @@ title: "A recommendation for filtering AAAA records in stub resolvers"
 abbrev: "AAAA filtering considerations"
 category: info
 
-docname: draft-todo-yourname-protocol-latest
+docname: draft-caletka-aaaa-filtering-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
