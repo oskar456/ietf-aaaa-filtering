@@ -19,8 +19,8 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
+title: "A recommendation for filtering AAAA records in stub resolvers"
+abbrev: "AAAA filtering considerations"
 category: info
 
 docname: draft-todo-yourname-protocol-latest
@@ -45,9 +45,9 @@ venue:
 
 author:
  -
-    fullname: Your Name Here
-    organization: Your Organization Here
-    email: your.email@example.com
+    fullname: Ondřej Caletka
+    organization: RIPE NCC
+    email: ondrej@caletka.cz
 
 normative:
 
