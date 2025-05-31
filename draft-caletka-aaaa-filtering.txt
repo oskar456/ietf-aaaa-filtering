@@ -2,13 +2,13 @@
 
 
 
-WG Working Group                                              Y. N. Here
-Internet-Draft                                    Your Organization Here
+WG Working Group                                              O. Caletka
+Internet-Draft                                                  RIPE NCC
 Intended status: Informational                               31 May 2025
 Expires: 2 December 2025
 
 
-                           TODO - Your title
+     A recommendation for filtering AAAA records in stub resolvers
                   draft-todo-yourname-protocol-latest
 
 Abstract
@@ -109,6 +109,6 @@ Acknowledgments
 
 Author's Address
 
-   Your Name Here
-   Your Organization Here
-   Email: your.email@example.com
+   Ondřej Caletka
+   RIPE NCC
+   Email: ondrej@caletka.cz
