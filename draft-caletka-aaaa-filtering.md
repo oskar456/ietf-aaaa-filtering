@@ -25,12 +25,12 @@ keyword:
  - DNS
  - Address records
 venue:
-  group: WG
-  type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
+#  group: WG
+#  type: Working Group
+#  mail: WG@example.com
+#  arch: https://example.com/WG
+  github: oskar456/ietf-aaaa-filtering
+  latest: https://oskar456.github.io/ietf-aaaa-filtering/draft-caletka-aaaa-filtering.html
 
 author:
  -
@@ -67,7 +67,7 @@ Most operating systems support both IPv6 and IPv4 networking stack. When such a
 host is connected to a dual-stack network, whenever a process requests
 resolution of a DNS name, two DNS queries need to be issued - one for an A
 record representing IPv4 address, one for a AAAA record representing IPv6
-address. The results of such queries is then merged and ordered based on
+address. The results of such queries are then merged and ordered based on
 [RFC6724] or used as input for the Happy Eyeballs algorithm [RFC8305].
 
 When such a host is connected to a single-stack network, only one DNS query need
@@ -81,7 +81,7 @@ to IPv6 Transition Mechanisms or VPNs.
 
 {::boilerplate bcp14-tagged}
 
-# Connectivity detection mechanisms
+# Connectivity detection algorithm
 
 The presence of connectivity for a particular address family MUST be determined
 by the routing table of the host. Presence of at least one route towards non
@@ -127,7 +127,7 @@ using IPv4 compatibility of IPv6 sockets [RFC3493].
 The optimization described above is OPTIONAL. A stub resolver of a dual-stack
 capable host can always issue both A and AAAA queries to the DNS, merge and
 order the results and send them to the application even if it has only a
-single-stack connectivity.  Sending packets to the unroutable destination will
+single-stack connectivity. Sending packets to the unroutable destination will
 be immediately refused, so a properly written application will quickly fall
 through the list of addresses to the one using the same address family as the
 connectivity of the host.
