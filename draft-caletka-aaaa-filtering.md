@@ -1,25 +1,14 @@
 ---
+# vim: spelllang=en
 ###
 # Internet-Draft Markdown Template
-#
-# Rename this file from draft-todo-yourname-protocol.md to get started.
-# Draft name format is "draft-<yourname>-<workgroup>-<name>.md".
-#
-# For initial setup, you only need to edit the first block of fields.
-# Only "title" needs to be changed; delete "abbrev" if your title is short.
-# Any other content can be edited, but be careful not to introduce errors.
-# Some fields will be set automatically during setup if they are unchanged.
-#
-# Don't include "-00" or "-latest" in the filename.
-# Labels in the form draft-<yourname>-<workgroup>-<name>-latest are used by
-# the tools to refer to the current version; see "docname" for example.
 #
 # This template uses kramdown-rfc: https://github.com/cabo/kramdown-rfc
 # You can replace the entire file if you prefer a different format.
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "A recommendation for filtering AAAA records in stub resolvers"
+title: "A recommendation for filtering address records in stub resolvers"
 abbrev: "AAAA filtering considerations"
 category: info
 
@@ -29,12 +18,12 @@ number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+#area: AREA
+#workgroup: WG Working Group
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - IPv6
+ - DNS
+ - Address records
 venue:
   group: WG
   type: Working Group
@@ -50,31 +39,111 @@ author:
     email: ondrej@caletka.cz
 
 normative:
+  RFC3493:
+  RFC6724:
+  RFC8305:
 
 informative:
-
+  RFC5684:
+  IANA:
+    target: https://www.iana.org/assignments/iana-ipv6-special-registry
+    title: IANA IPv6 Special-Purpose Address Registry
 ...
 
 --- abstract
 
-TODO Abstract
+Since IPv4 and IPv6 addresses are represented by different resource records in
+the DNS, operating systems capable of running both IPv4 and IPv6 need to make
+two queries when resolving a host name. This document discusses conditions, under
+which the stub resolver can optimize the process by not sending one of the
+queries if the host is connected to a single-stack network.
 
 
 --- middle
 
 # Introduction
 
-TODO Introduction
+Most operating systems support both IPv6 and IPv4 networking stack. When such a
+host is connected to a dual-stack network, whenever a process requests
+resolution of a DNS name, two DNS queries need to be issued - one for an A
+record representing IPv4 address, one for a AAAA record representing IPv6
+address. The results of such queries is then merged and ordered based on
+[RFC6724] or used as input for the Happy Eyeballs algorithm [RFC8305].
 
+When such a host is connected to a single-stack network, only one DNS query need
+to be sent: there is no point of sending out AAAA record query if the host has
+no IPv6 connectivity or sending out A query if the host has no IPv4
+connectivity. Such an optimization however has to consider any possible mean of
+obtaining connectivity for particular address family: including but not limited
+to IPv6 Transition Mechanisms or VPNs.
 
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
 
+# Connectivity detection mechanisms
+
+The presence of connectivity for a particular address family MUST be determined
+by the routing table of the host. Presence of at least one route towards non
+link-local address space MUST be considered as present connectivity, Having only
+a link-local routes in the routing table for particular address family is
+considered as no connectivity.
+
+It is necessary to consider ANY route towards non link-local address space and
+not just default route and/or default network interface. Such a detection would
+cause issues with Split-mode VPNs providing only particular routes for the
+resources reachable via VPN.
+
+Based on the result of connectivity detection, the host sends only queries for
+the address records of the address families that are detected to have
+connectivity, thus if IPv4 connectivity is detected, an A query is sent, if IPv6
+connectivity is detected, a AAAA query is sent.
+
+# Filtering DNS results
+
+If the host does not have a full connectivity to both address families (there
+are no default gateways for both IPv4 and IPv6), it is possible that the IP(v6)
+address obtained from the DNS falls into unreachable address space. This should
+not be problem for a properly written applications, since [RFC6724] requires
+applications to try connecting to all addresses received from the stub resolver.
+
+However, in order to minimize impact on poorly designed applications, the stub
+resolver MAY remove unreachable addresses from the list of DNS query results
+sent to the application.
+
+## Filtering IPv4-mapped addresses
+
+As an extension to the filtering of DNS results, the stub resolver MAY also
+remove IPv4-mapped IPv6 addresses from the list of DNS query results sent to the
+application.
+
+IPv4-mapped IPv6 addresses are not valid destination addresses [IANA],
+therefore they should never appear in the AAAA records. Sending IPv4-mapped IPv6
+address to the application might cause address family confusion for applications
+using IPv4 compatibility of IPv6 sockets [RFC3493].
+
+# Effects of not doing address record filtering
+
+The optimization described above is OPTIONAL. A stub resolver of a dual-stack
+capable host can always issue both A and AAAA queries to the DNS, merge and
+order the results and send them to the application even if it has only a
+single-stack connectivity.  Sending packets to the unroutable destination will
+be immediately refused, so a properly written application will quickly fall
+through the list of addresses to the one using the same address family as the
+connectivity of the host.
+
+However, it should be noted that such behavior increases load on the DNS system.
+If such an optimization is removed (for instance by a software update) on a
+large single-stack networks, this might overload parts of the DNS
+infrastructure, since the number of queries doubles.
 
 # Security Considerations
 
-TODO Security
+Reducing the number of queries allows an attacker observing the DNS traffic to
+figure out which address families the host uses.
+
+Sudden disabling of the optimization can overload parts of the DNS
+infrastructure due to doubling the number of queries.
 
 
 # IANA Considerations
