@@ -25,16 +25,12 @@ About This Document
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at
-   https://example.com/LATEST.  Status information for this document may
-   be found at https://datatracker.ietf.org/doc/draft-caletka-aaaa-
-   filtering/.
-
-   Discussion of this document takes place on the WG Working Group
-   mailing list (mailto:WG@example.com), which is archived at
-   https://example.com/WG.
+   https://oskar456.github.io/ietf-aaaa-filtering/draft-caletka-aaaa-
+   filtering.html.  Status information for this document may be found at
+   https://datatracker.ietf.org/doc/draft-caletka-aaaa-filtering/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/USER/REPO.
+   https://github.com/oskar456/ietf-aaaa-filtering.
 
 Status of This Memo
 
@@ -71,7 +67,7 @@ Table of Contents
 
    1.  Introduction
    2.  Conventions and Definitions
-   3.  Connectivity detection mechanisms
+   3.  Connectivity detection algorithm
    4.  Filtering DNS results
      4.1.  Filtering IPv4-mapped addresses
    5.  Effects of not doing address record filtering
@@ -90,7 +86,7 @@ Table of Contents
    process requests resolution of a DNS name, two DNS queries need to be
    issued - one for an A record representing IPv4 address, one for a
    AAAA record representing IPv6 address.  The results of such queries
-   is then merged and ordered based on [RFC6724] or used as input for
+   are then merged and ordered based on [RFC6724] or used as input for
    the Happy Eyeballs algorithm [RFC8305].
 
    When such a host is connected to a single-stack network, only one DNS
@@ -109,7 +105,7 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Connectivity detection mechanisms
+3.  Connectivity detection algorithm
 
    The presence of connectivity for a particular address family MUST be
    determined by the routing table of the host.  Presence of at least

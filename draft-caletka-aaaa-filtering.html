@@ -1097,14 +1097,10 @@ queries if the host is connected to a single-stack network.<a href="#section-abs
       </h2>
 <p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <p id="section-note.1-2">
-        The latest revision of this draft can be found at <span><a href="https://example.com/LATEST">https://example.com/LATEST</a></span>.
+        The latest revision of this draft can be found at <span><a href="https://oskar456.github.io/ietf-aaaa-filtering/draft-caletka-aaaa-filtering.html">https://oskar456.github.io/ietf-aaaa-filtering/draft-caletka-aaaa-filtering.html</a></span>.
         Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-caletka-aaaa-filtering/">https://datatracker.ietf.org/doc/draft-caletka-aaaa-filtering/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
-<p id="section-note.1-3">
-        Discussion of this document takes place on the
-        WG Working Group mailing list (<span><a href="mailto:WG@example.com">mailto:WG@example.com</a></span>),
-        which is archived at <span><a href="https://example.com/WG">https://example.com/WG</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
-<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
-        <span><a href="https://github.com/USER/REPO">https://github.com/USER/REPO</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/oskar456/ietf-aaaa-filtering">https://github.com/oskar456/ietf-aaaa-filtering</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1161,7 +1157,7 @@ queries if the host is connected to a single-stack network.<a href="#section-abs
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-connectivity-detection-mech" class="internal xref">Connectivity detection mechanisms</a></p>
+            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-connectivity-detection-algo" class="internal xref">Connectivity detection algorithm</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-filtering-dns-results" class="internal xref">Filtering DNS results</a></p>
@@ -1210,7 +1206,7 @@ queries if the host is connected to a single-stack network.<a href="#section-abs
 host is connected to a dual-stack network, whenever a process requests
 resolution of a DNS name, two DNS queries need to be issued - one for an A
 record representing IPv4 address, one for a AAAA record representing IPv6
-address. The results of such queries is then merged and ordered based on
+address. The results of such queries are then merged and ordered based on
 <span>[<a href="#RFC6724" class="cite xref">RFC6724</a>]</span> or used as input for the Happy Eyeballs algorithm <span>[<a href="#RFC8305" class="cite xref">RFC8305</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">When such a host is connected to a single-stack network, only one DNS query need
 to be sent: there is no point of sending out AAAA record query if the host has
@@ -1231,10 +1227,10 @@ described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</s
 appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="connectivity-detection-mechanisms">
+<div id="connectivity-detection-algorithm">
 <section id="section-3">
-      <h2 id="name-connectivity-detection-mech">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-connectivity-detection-mech" class="section-name selfRef">Connectivity detection mechanisms</a>
+      <h2 id="name-connectivity-detection-algo">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-connectivity-detection-algo" class="section-name selfRef">Connectivity detection algorithm</a>
       </h2>
 <p id="section-3-1">The presence of connectivity for a particular address family <span class="bcp14">MUST</span> be determined
 by the routing table of the host. Presence of at least one route towards non
@@ -1288,7 +1284,7 @@ using IPv4 compatibility of IPv6 sockets <span>[<a href="#RFC3493" class="cite x
 <p id="section-5-1">The optimization described above is <span class="bcp14">OPTIONAL</span>. A stub resolver of a dual-stack
 capable host can always issue both A and AAAA queries to the DNS, merge and
 order the results and send them to the application even if it has only a
-single-stack connectivity.  Sending packets to the unroutable destination will
+single-stack connectivity. Sending packets to the unroutable destination will
 be immediately refused, so a properly written application will quickly fall
 through the list of addresses to the one using the same address family as the
 connectivity of the host.<a href="#section-5-1" class="pilcrow">¶</a></p>
