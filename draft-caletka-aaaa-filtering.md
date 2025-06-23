@@ -40,6 +40,8 @@ author:
 
 normative:
   RFC3493:
+  RFC3927:
+  RFC4291:
   RFC6724:
   RFC8305:
 
@@ -83,39 +85,39 @@ to IPv6 Transition Mechanisms or VPNs.
 
 # Connectivity detection algorithm
 
-The presence of connectivity for a particular address family MUST be determined
-by the routing table of the host. Presence of at least one route towards non
-link-local address space MUST be considered as present connectivity, Having only
-a link-local routes in the routing table for particular address family is
-considered as no connectivity.
+Whenever an application asks the stub resolver to resolve a domain name without
+specifying address family, stub resolver follows this algorithm for each address
+family supported by the operating system:
 
-It is necessary to consider ANY route towards non link-local address space and
+ 1. Read routing table of particular address family.
+ 2. Check for presence of a route towards a destination that is not a Link-Local
+    range for such address family, ie. Section 2.5.6 of [RFC4291] for IPv6 and [RFC3927] for IPv4.
+ 3. If such a route is present, send the corresponding name query to the DNS:
+    AAAA query for the address family of IPv6, A query for IPv4.
+
+It is necessary to consider ANY route towards non Link-Local address space and
 not just default route and/or default network interface. Such a detection would
 cause issues with Split-mode VPNs providing only particular routes for the
 resources reachable via VPN.
-
-Based on the result of connectivity detection, the host sends only queries for
-the address records of the address families that are detected to have
-connectivity, thus if IPv4 connectivity is detected, an A query is sent, if IPv6
-connectivity is detected, a AAAA query is sent.
 
 # Filtering DNS results
 
 If the host does not have a full connectivity to both address families (there
 are no default gateways for both IPv4 and IPv6), it is possible that the IP(v6)
-address obtained from the DNS falls into unreachable address space. This should
-not be problem for a properly written applications, since [RFC6724] requires
-applications to try connecting to all addresses received from the stub resolver.
+address obtained from the DNS falls into the address space not covered by a
+route. This should not be problem for a properly written applications, since
+[RFC6724] requires applications to try connecting to all addresses received from
+the stub resolver.
 
 However, in order to minimize impact on poorly designed applications, the stub
-resolver MAY remove unreachable addresses from the list of DNS query results
-sent to the application.
+resolver MAY remove addresses not covered by an entry in the routing table from
+the list of DNS query results sent to the application.
 
 ## Filtering IPv4-mapped addresses
 
 As an extension to the filtering of DNS results, the stub resolver MAY also
-remove IPv4-mapped IPv6 addresses from the list of DNS query results sent to the
-application.
+remove IPv4-mapped IPv6 addresses (Section 2.5.5.2 of [RFC4291]) from the list of DNS
+query results sent to the application.
 
 IPv4-mapped IPv6 addresses are not valid destination addresses [IANA],
 therefore they should never appear in the AAAA records. Sending IPv4-mapped IPv6
@@ -127,10 +129,10 @@ using IPv4 compatibility of IPv6 sockets [RFC3493].
 The optimization described above is OPTIONAL. A stub resolver of a dual-stack
 capable host can always issue both A and AAAA queries to the DNS, merge and
 order the results and send them to the application even if it has only a
-single-stack connectivity. Sending packets to the unroutable destination will
-be immediately refused, so a properly written application will quickly fall
-through the list of addresses to the one using the same address family as the
-connectivity of the host.
+single-stack connectivity. Sending packets to a destination not covered by an
+entry in the routing table will be immediately refused, so a properly written
+application will quickly fall through the list of addresses to the one using the
+same address family as the connectivity of the host.
 
 However, it should be noted that such behavior increases load on the DNS system.
 If such an optimization is removed (for instance by a software update) on a
