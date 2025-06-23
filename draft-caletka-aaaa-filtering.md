@@ -89,11 +89,10 @@ Whenever an application asks the stub resolver to resolve a domain name without
 specifying address family, stub resolver follows this algorithm for each address
 family supported by the operating system:
 
- 1. Read routing table of particular address family.
- 2. Check for presence of a route towards a destination that is not a Link-Local
-    range for such address family, ie. Section 2.5.6 of [RFC4291] for IPv6 and [RFC3927] for IPv4.
- 3. If such a route is present, send the corresponding name query to the DNS:
-    AAAA query for the address family of IPv6, A query for IPv4.
+ 1. Read routing table of the address family.
+ 2. Remove all routes towards Link-Local destinations from the routing table, ie. remove addresses from Section 2.5.6 of [RFC4291] for IPv6 routing table and remove addresses from [RFC3927] for IPv4 routing table.
+ 3. If the routing table is not empty, send the corresponding name query to the DNS:
+    AAAA query for IPv6, A query for IPv4.
 
 It is necessary to consider ANY route towards non Link-Local address space and
 not just default route and/or default network interface. Such a detection would
@@ -102,7 +101,7 @@ resources reachable via VPN.
 
 # Filtering DNS results
 
-If the host does not have a full connectivity to both address families (there
+If the host does not have a full connectivity for both address families (there
 are no default gateways for both IPv4 and IPv6), it is possible that the IP(v6)
 address obtained from the DNS falls into the address space not covered by a
 route. This should not be problem for a properly written applications, since
@@ -120,7 +119,7 @@ remove IPv4-mapped IPv6 addresses (Section 2.5.5.2 of [RFC4291]) from the list o
 query results sent to the application.
 
 IPv4-mapped IPv6 addresses are not valid destination addresses [IANA],
-therefore they should never appear in the AAAA records. Sending IPv4-mapped IPv6
+therefore they should never appear in AAAA records. Sending IPv4-mapped IPv6
 address to the application might cause address family confusion for applications
 using IPv4 compatibility of IPv6 sockets [RFC3493].
 
