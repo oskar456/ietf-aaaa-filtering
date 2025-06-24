@@ -2,10 +2,10 @@
 
 
 
-Network Working Group                                         O. Caletka
+IPv6 operations                                               O. Caletka
 Internet-Draft                                                  RIPE NCC
-Intended status: Informational                              23 June 2025
-Expires: 25 December 2025
+Intended status: Informational                              24 June 2025
+Expires: 26 December 2025
 
 
     A recommendation for filtering address records in stub resolvers
@@ -47,7 +47,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 December 2025.
+   This Internet-Draft will expire on 26 December 2025.
 
 Copyright Notice
 
