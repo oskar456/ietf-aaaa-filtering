@@ -9,7 +9,7 @@
 <meta content="
        Since IPv4 and IPv6 addresses are represented by different resource records in
 the DNS, operating systems capable of running both IPv4 and IPv6 need to make
-two queries when resolving a host name. This document discusses conditions, under
+two queries when resolving a host name. This document discusses conditions under
 which the stub resolver can optimize the process by not sending one of the
 queries if the host is connected to a single-stack network. 
     " name="description">
@@ -1087,7 +1087,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">Since IPv4 and IPv6 addresses are represented by different resource records in
 the DNS, operating systems capable of running both IPv4 and IPv6 need to make
-two queries when resolving a host name. This document discusses conditions, under
+two queries when resolving a host name. This document discusses conditions under
 which the stub resolver can optimize the process by not sending one of the
 queries if the host is connected to a single-stack network.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
@@ -1202,17 +1202,17 @@ queries if the host is connected to a single-stack network.<a href="#section-abs
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">Most operating systems support both IPv6 and IPv4 networking stack. When such a
+<p id="section-1-1">Most operating systems support both a IPv6 and an IPv4 networking stack. When such a
 host is connected to a dual-stack network, whenever a process requests
 resolution of a DNS name, two DNS queries need to be issued - one for an A
 record representing IPv4 address, one for a AAAA record representing IPv6
 address. The results of such queries are then merged and ordered based on
 <span>[<a href="#RFC6724" class="cite xref">RFC6724</a>]</span> or used as input for the Happy Eyeballs algorithm <span>[<a href="#RFC8305" class="cite xref">RFC8305</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">When such a host is connected to a single-stack network, only one DNS query need
+<p id="section-1-2">When such a host is connected to a single-stack network, only one DNS query needs
 to be sent: there is no point of sending out AAAA record query if the host has
 no IPv6 connectivity or sending out A query if the host has no IPv4
-connectivity. Such an optimization however has to consider any possible mean of
-obtaining connectivity for particular address family: including but not limited
+connectivity. Such an optimization however has to consider any possible means of
+obtaining connectivity for particular address family, including but not limited
 to IPv6 Transition Mechanisms or VPNs.<a href="#section-1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1243,11 +1243,18 @@ family supported by the operating system:<a href="#section-3-1" class="pilcrow">
           <p id="section-3-2.2.1">Remove all routes towards Link-Local destinations from the routing table, ie. remove addresses from Section 2.5.6 of <span>[<a href="#RFC4291" class="cite xref">RFC4291</a>]</span> for IPv6 routing table and remove addresses from <span>[<a href="#RFC3927" class="cite xref">RFC3927</a>]</span> for IPv4 routing table.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-3-2.3">
-          <p id="section-3-2.3.1">If the routing table is not empty, send the corresponding name query to the DNS:
-AAAA query for IPv6, A query for IPv4.<a href="#section-3-2.3.1" class="pilcrow">¶</a></p>
+          <p id="section-3-2.3.1">If the routing table is not empty, send the corresponding name query to the DNS:<a href="#section-3-2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3-2.3.2.1">
+              <p id="section-3-2.3.2.1.1">AAAA query for IPv6<a href="#section-3-2.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-3-2.3.2.2">
+              <p id="section-3-2.3.2.2.1">A query for IPv4.<a href="#section-3-2.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </li>
       </ol>
-<p id="section-3-3">It is necessary to consider ANY route towards non Link-Local address space and
+<p id="section-3-3">It is necessary to consider ANY route towards non Link-Local address space
 not just default route and/or default network interface. Such a detection would
 cause issues with Split-mode VPNs providing only particular routes for the
 resources reachable via VPN.<a href="#section-3-3" class="pilcrow">¶</a></p>
@@ -1293,7 +1300,7 @@ capable host can always issue both A and AAAA queries to the DNS, merge and
 order the results and send them to the application even if it has only a
 single-stack connectivity. Sending packets to a destination not covered by an
 entry in the routing table will be immediately refused, so a properly written
-application will quickly fall through the list of addresses to the one using the
+application will quickly iterate through the list of addresses to the one using the
 same address family as the connectivity of the host.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <p id="section-5-2">However, it should be noted that such behavior increases load on the DNS system.
 If such an optimization is removed (for instance by a software update) on a
