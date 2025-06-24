@@ -94,7 +94,7 @@ family supported by the operating system:
     * AAAA query for IPv6
     * A query for IPv4.
 
-It is necessary to consider ANY route towards non Link-Local address space 
+It is necessary to consider ANY route towards non Link-Local address space
 not just default route and/or default network interface. Such a detection would
 cause issues with Split-mode VPNs providing only particular routes for the
 resources reachable via VPN.
