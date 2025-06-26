@@ -55,9 +55,9 @@ informative:
 --- abstract
 
 Since IPv4 and IPv6 addresses are represented by different resource records in
-the DNS, operating systems capable of running both IPv4 and IPv6 need to make
-two queries when resolving a host name. This document discusses conditions under
-which the stub resolver can optimize the process by not sending one of the
+the Domain Name System, operating systems capable of running both IPv4 and IPv6 need to execute
+two queries when resolving a host name. This document discusses the conditions under
+which a stub resolver can optimize the process by not sending one of the
 queries if the host is connected to a single-stack network.
 
 --- middle
