@@ -130,8 +130,8 @@ capable host can always issue both A and AAAA queries to the DNS, merge and
 order the results and send them to the application even if it has only
 single-stack connectivity. Sending packets to a destination not covered by an
 entry in the routing table will be immediately refused, so a properly written
-application will scan the list of addresses and finally select the one using the
-same address family as the connectivity of the host.
+application will quickly iterate through the list of addresses and finally
+select the one using the same address family as the connectivity of the host.
 
 However, it should be noted that such behavior increases load on the DNS system.
 If such an optimization is removed (for instance by a software update) on a
