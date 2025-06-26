@@ -127,7 +127,7 @@ using IPv4 compatibility of IPv6 sockets [RFC3493].
 
 The optimization described above is OPTIONAL. A stub resolver of a dual-stack
 capable host can always issue both A and AAAA queries to the DNS, merge and
-order the results and send them to the application even if it has only 
+order the results and send them to the application even if it has only
 single-stack connectivity. Sending packets to a destination not covered by an
 entry in the routing table will be immediately refused, so a properly written
 application will scan the list of addresses and finally select the one using the
