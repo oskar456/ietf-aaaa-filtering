@@ -55,27 +55,27 @@ informative:
 --- abstract
 
 Since IPv4 and IPv6 addresses are represented by different resource records in
-the DNS, operating systems capable of running both IPv4 and IPv6 need to make
-two queries when resolving a host name. This document discusses conditions under
-which the stub resolver can optimize the process by not sending one of the
+the Domain Name System, operating systems capable of running both IPv4 and IPv6 need to execute
+two queries when resolving a host name. This document discusses the conditions under
+which a stub resolver can optimize the process by not sending one of the
 queries if the host is connected to a single-stack network.
 
 --- middle
 
 # Introduction
 
-Most operating systems support both a IPv6 and an IPv4 networking stack. When such a
+Most operating systems support both the IPv6 and the IPv4 networking stack. When such a
 host is connected to a dual-stack network, whenever a process requests
 resolution of a DNS name, two DNS queries need to be issued - one for an A
-record representing IPv4 address, one for a AAAA record representing IPv6
+record representing an IPv4 address, and one for a AAAA record representing an IPv6
 address. The results of such queries are then merged and ordered based on
 [RFC6724] or used as input for the Happy Eyeballs algorithm [RFC8305].
 
 When such a host is connected to a single-stack network, only one DNS query needs
-to be sent: there is no point of sending out AAAA record query if the host has
-no IPv6 connectivity or sending out A query if the host has no IPv4
+to be performed: there is reason for querying for a AAAA record if the host has
+no IPv6 connectivity, the same way there is no reason to look for an A record if the host has no IPv4
 connectivity. Such an optimization however has to consider any possible means of
-obtaining connectivity for particular address family, including but not limited
+obtaining connectivity for a particular address family, including but not limited
 to IPv6 Transition Mechanisms or VPNs.
 
 # Conventions and Definitions
@@ -85,30 +85,30 @@ to IPv6 Transition Mechanisms or VPNs.
 # Connectivity detection algorithm
 
 Whenever an application asks the stub resolver to resolve a domain name without
-specifying address family, stub resolver follows this algorithm for each address
+specifying the address family, the stub resolver follows this algorithm for each address
 family supported by the operating system:
 
- 1. Read routing table of the address family.
- 2. Remove all routes towards Link-Local destinations from the routing table, ie. remove addresses from Section 2.5.6 of [RFC4291] for IPv6 routing table and remove addresses from [RFC3927] for IPv4 routing table.
+ 1. Read the routing table of the address family;
+ 2. Remove all the routes towards Link-Local destinations from the routing table, ie. remove addresses from Section 2.5.6 of [RFC4291] for the IPv6 routing table and remove addresses from [RFC3927] for the IPv4 routing table;
  3. If the routing table is not empty, send the corresponding name query to the DNS:
     * AAAA query for IPv6
     * A query for IPv4.
 
-It is necessary to consider ANY route towards non Link-Local address space
-not just default route and/or default network interface. Such a detection would
+It is necessary to consider ANY routes towards non Link-Local address space and
+not just the default route and/or the default network interface. Such a detection would
 cause issues with Split-mode VPNs providing only particular routes for the
-resources reachable via VPN.
+resources reachable via the VPN.
 
 # Filtering DNS results
 
-If the host does not have a full connectivity for both address families (there
+If the host does not have full connectivity for both address families (there
 are no default gateways for both IPv4 and IPv6), it is possible that the IP(v6)
 address obtained from the DNS falls into the address space not covered by a
-route. This should not be problem for a properly written applications, since
+route. This should not be problem for a properly written application, since
 [RFC6724] requires applications to try connecting to all addresses received from
 the stub resolver.
 
-However, in order to minimize impact on poorly designed applications, the stub
+However, in order to minimize the impact on poorly designed applications, the stub
 resolver MAY remove addresses not covered by an entry in the routing table from
 the list of DNS query results sent to the application.
 
@@ -127,23 +127,23 @@ using IPv4 compatibility of IPv6 sockets [RFC3493].
 
 The optimization described above is OPTIONAL. A stub resolver of a dual-stack
 capable host can always issue both A and AAAA queries to the DNS, merge and
-order the results and send them to the application even if it has only a
+order the results and send them to the application even if it has only 
 single-stack connectivity. Sending packets to a destination not covered by an
 entry in the routing table will be immediately refused, so a properly written
-application will quickly iterate through the list of addresses to the one using the
+application will scan the list of addresses and finally select the one using the
 same address family as the connectivity of the host.
 
 However, it should be noted that such behavior increases load on the DNS system.
 If such an optimization is removed (for instance by a software update) on a
-large single-stack networks, this might overload parts of the DNS
-infrastructure, since the number of queries doubles.
+large single-stack network, this might overload parts of the DNS
+infrastructure, since the number of queries will double.
 
 # Security Considerations
 
 Reducing the number of queries allows an attacker observing the DNS traffic to
 figure out which address families the host uses.
 
-Sudden disabling of the optimization can overload parts of the DNS
+Suddendly disabling the optimization can overload parts of the DNS
 infrastructure due to doubling the number of queries.
 
 
