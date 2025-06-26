@@ -25,10 +25,10 @@ keyword:
  - DNS
  - Address records
 venue:
-#  group: WG
-#  type: Working Group
-#  mail: WG@example.com
-#  arch: https://example.com/WG
+  group: v6ops
+  type: Working Group
+  mail: v6ops@ietf.org
+  arch: https://mailarchive.ietf.org/arch/browse/v6ops/
   github: oskar456/ietf-aaaa-filtering
   latest: https://oskar456.github.io/ietf-aaaa-filtering/draft-caletka-aaaa-filtering.html
 
