@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-24T01:00:24.039191+00:00",
+  "timestamp": "2025-06-26T01:00:05.398252+00:00",
   "repo": "oskar456/ietf-aaaa-filtering",
   "labels": [
     {
@@ -50,5 +50,48 @@
     }
   ],
   "issues": [],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOOzohls6b7HkN",
+      "title": "First read",
+      "url": "https://github.com/oskar456/ietf-aaaa-filtering/pull/1",
+      "state": "MERGED",
+      "author": "buraglio",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I just did a little bit of proofreading, feel free to ignore. ",
+      "createdAt": "2025-06-24T19:30:16Z",
+      "updatedAt": "2025-06-24T19:40:47Z",
+      "baseRepository": "oskar456/ietf-aaaa-filtering",
+      "baseRefName": "main",
+      "baseRefOid": "55e51fc6b44346f26c7b0070dc226ec3766c4ae7",
+      "headRepository": "buraglio/ietf-aaaa-filtering",
+      "headRefName": "main",
+      "headRefOid": "efd13e7ac9e1cef5eb16ef93e2f506948376ea67",
+      "closedAt": "2025-06-24T19:40:47Z",
+      "mergedAt": "2025-06-24T19:40:47Z",
+      "mergedBy": "oskar456",
+      "mergeCommit": {
+        "oid": "efd13e7ac9e1cef5eb16ef93e2f506948376ea67"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOzohls6wIwPJ",
+          "commit": {
+            "abbreviatedOid": "efd13e7"
+          },
+          "author": "oskar456",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "Awesome, thanks a lot!",
+          "createdAt": "2025-06-24T19:37:24Z",
+          "updatedAt": "2025-06-24T19:37:24Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
 }
