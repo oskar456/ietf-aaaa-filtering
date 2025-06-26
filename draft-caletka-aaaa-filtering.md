@@ -101,14 +101,14 @@ resources reachable via the VPN.
 
 # Filtering DNS results
 
-If the host does not have a full connectivity for both address families (there
+If the host does not have full connectivity for both address families (there
 are no default gateways for both IPv4 and IPv6), it is possible that the IP(v6)
 address obtained from the DNS falls into the address space not covered by a
-route. This should not be problem for a properly written applications, since
+route. This should not be problem for a properly written application, since
 [RFC6724] requires applications to try connecting to all addresses received from
 the stub resolver.
 
-However, in order to minimize impact on poorly designed applications, the stub
+However, in order to minimize the impact on poorly designed applications, the stub
 resolver MAY remove addresses not covered by an entry in the routing table from
 the list of DNS query results sent to the application.
 
@@ -127,23 +127,23 @@ using IPv4 compatibility of IPv6 sockets [RFC3493].
 
 The optimization described above is OPTIONAL. A stub resolver of a dual-stack
 capable host can always issue both A and AAAA queries to the DNS, merge and
-order the results and send them to the application even if it has only a
+order the results and send them to the application even if it has only 
 single-stack connectivity. Sending packets to a destination not covered by an
 entry in the routing table will be immediately refused, so a properly written
-application will quickly iterate through the list of addresses to the one using the
+application will scan the list of addresses and finally select the one using the
 same address family as the connectivity of the host.
 
 However, it should be noted that such behavior increases load on the DNS system.
 If such an optimization is removed (for instance by a software update) on a
-large single-stack networks, this might overload parts of the DNS
-infrastructure, since the number of queries doubles.
+large single-stack network, this might overload parts of the DNS
+infrastructure, since the number of queries will double.
 
 # Security Considerations
 
 Reducing the number of queries allows an attacker observing the DNS traffic to
 figure out which address families the host uses.
 
-Sudden disabling of the optimization can overload parts of the DNS
+Suddendly disabling the optimization can overload parts of the DNS
 infrastructure due to doubling the number of queries.
 
 
