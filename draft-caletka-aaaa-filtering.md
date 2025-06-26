@@ -64,18 +64,18 @@ queries if the host is connected to a single-stack network.
 
 # Introduction
 
-Most operating systems support both a IPv6 and an IPv4 networking stack. When such a
+Most operating systems support both the IPv6 and the IPv4 networking stack. When such a
 host is connected to a dual-stack network, whenever a process requests
 resolution of a DNS name, two DNS queries need to be issued - one for an A
-record representing IPv4 address, one for a AAAA record representing IPv6
+record representing an IPv4 address, and one for a AAAA record representing an IPv6
 address. The results of such queries are then merged and ordered based on
 [RFC6724] or used as input for the Happy Eyeballs algorithm [RFC8305].
 
 When such a host is connected to a single-stack network, only one DNS query needs
-to be sent: there is no point of sending out AAAA record query if the host has
-no IPv6 connectivity or sending out A query if the host has no IPv4
+to be performed: there is reason for querying for a AAAA record if the host has
+no IPv6 connectivity, the same way there is no reason to look for an A record if the host has no IPv4
 connectivity. Such an optimization however has to consider any possible means of
-obtaining connectivity for particular address family, including but not limited
+obtaining connectivity for a particular address family, including but not limited
 to IPv6 Transition Mechanisms or VPNs.
 
 # Conventions and Definitions
@@ -85,19 +85,19 @@ to IPv6 Transition Mechanisms or VPNs.
 # Connectivity detection algorithm
 
 Whenever an application asks the stub resolver to resolve a domain name without
-specifying address family, stub resolver follows this algorithm for each address
+specifying the address family, the stub resolver follows this algorithm for each address
 family supported by the operating system:
 
- 1. Read routing table of the address family.
- 2. Remove all routes towards Link-Local destinations from the routing table, ie. remove addresses from Section 2.5.6 of [RFC4291] for IPv6 routing table and remove addresses from [RFC3927] for IPv4 routing table.
+ 1. Read the routing table of the address family;
+ 2. Remove all the routes towards Link-Local destinations from the routing table, ie. remove addresses from Section 2.5.6 of [RFC4291] for the IPv6 routing table and remove addresses from [RFC3927] for the IPv4 routing table;
  3. If the routing table is not empty, send the corresponding name query to the DNS:
     * AAAA query for IPv6
     * A query for IPv4.
 
-It is necessary to consider ANY route towards non Link-Local address space
-not just default route and/or default network interface. Such a detection would
+It is necessary to consider ANY routes towards non Link-Local address space and
+not just the default route and/or the default network interface. Such a detection would
 cause issues with Split-mode VPNs providing only particular routes for the
-resources reachable via VPN.
+resources reachable via the VPN.
 
 # Filtering DNS results
 
