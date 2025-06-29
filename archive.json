@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-26T01:00:05.398252+00:00",
+  "timestamp": "2025-06-29T01:07:01.564762+00:00",
   "repo": "oskar456/ietf-aaaa-filtering",
   "labels": [
     {
@@ -90,6 +90,55 @@
           "createdAt": "2025-06-24T19:37:24Z",
           "updatedAt": "2025-06-24T19:37:24Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOOzohls6cSsZc",
+      "title": "Improve readability",
+      "url": "https://github.com/oskar456/ietf-aaaa-filtering/pull/2",
+      "state": "MERGED",
+      "author": "stucchimax",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Hi,\r\n\r\nthis is a small set of commits improving parts of the grammar, and thus improving readability for the draft.",
+      "createdAt": "2025-06-26T19:49:48Z",
+      "updatedAt": "2025-06-26T20:01:31Z",
+      "baseRepository": "oskar456/ietf-aaaa-filtering",
+      "baseRefName": "main",
+      "baseRefOid": "e1a5bddaf7d36e67149b06bd483a2e364e41b0b5",
+      "headRepository": "stucchimax/ietf-aaaa-filtering",
+      "headRefName": "main",
+      "headRefOid": "91f4c52662de17bddaa9989279cce4111f1d5d79",
+      "closedAt": "2025-06-26T20:01:31Z",
+      "mergedAt": "2025-06-26T20:01:31Z",
+      "mergedBy": "oskar456",
+      "mergeCommit": {
+        "oid": "5a39fef2e095ffeec8f0e4b6a8163eb30b593554"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOzohls6wolRL",
+          "commit": {
+            "abbreviatedOid": "91f4c52"
+          },
+          "author": "oskar456",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "Thanks a lot for proposed improvements! I will merge them in a moment.",
+          "createdAt": "2025-06-26T19:58:17Z",
+          "updatedAt": "2025-06-26T19:59:30Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "I prefer the former text here. I don't like to use the verb scan here.",
+              "createdAt": "2025-06-26T19:58:18Z",
+              "updatedAt": "2025-06-26T19:59:13Z"
+            }
+          ]
         }
       ]
     }
