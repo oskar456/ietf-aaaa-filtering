@@ -57,6 +57,10 @@ informative:
     target: https://chromium.googlesource.com/chromium/src/+/0de3ceea881115dd18e79e1d9ea4e090c655996b/net/dns/README.md#IPv6-and-connectivity
     title: Chrome Host Resolution - IPv6 and connectivity
   RFC6146:
+  RFC6147:
+  RFC6535:
+  RFC6877:
+  I-D.ietf-happy-happyeyeballs-v3:
 
 ...
 
@@ -152,6 +156,28 @@ Improper detection can cause issues for:
  * VPN tunnels using different address family than the native address
    family of the host, providing possibly only a limited subset of routes
    (split-mode VPN)
+
+## IPv4 connectivity provided by NAT64
+
+Even if the host has no routes towards IPv4 address space and/or no IPv4
+addresses on interfaces, it can still have IPv4 connectivity provided by some
+transition mechanism. In case of NAT64 [RFC6146], this leads to three possible
+scenarios:
+
+  1. 464XLAT [RFC6877] is used. In this case the host has a default route
+     towards the CLAT translator, so the A queries are not suppressed.  This
+     would be also the case for any other transition mechanism providing IPv4 as
+     a service over IPv6 bearer.
+
+  2. Only DNS64 [RFC6147] is used. In this case, it is correct not to do A
+     queries because the host cannot send any native IPv4 packets.
+
+  3. The host supports converting IPv4 API calls into IPv6 API calls similarly
+     to Bump-in-the-Host [RFC6535] API translator alternative. In this case,
+     such a translator can utilize A queries even if the host cannot send any
+     native IPv4 packets. Therefore such an API translator or a high level
+     library like [I-D.ietf-happy-happyeyeballs-v3] SHOULD NOT suppress A
+     queries if it is aware of the presence of NAT64 in the network.
 
 # Filtering DNS results
 
