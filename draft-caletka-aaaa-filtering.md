@@ -56,6 +56,7 @@ informative:
   CHROME:
     target: https://chromium.googlesource.com/chromium/src/+/0de3ceea881115dd18e79e1d9ea4e090c655996b/net/dns/README.md#IPv6-and-connectivity
     title: Chrome Host Resolution - IPv6 and connectivity
+  RFC6146:
 
 ...
 
@@ -80,10 +81,12 @@ address. The results of such queries are then merged and ordered based on
 
 When such a host is connected to a single-stack network, only one DNS query
 needs to be performed: there is no reason for querying for a AAAA record if the
-host has no IPv6 connectivity, the same way there is no reason to look for an A
-record if the host has no IPv4 connectivity. Such an optimization however has to
-consider any possible means of obtaining connectivity for a particular address
-family, including but not limited to IPv6 Transition Mechanisms or VPNs.
+host has no IPv6 connectivity. Similarly if the host does not have any IPv4
+connectivity, neither native nor provided by some other mechanism like NAT64
+[RFC6146],
+querying for a A record is useless. Such an optimization however has to consider
+any possible means of obtaining connectivity for a particular address family,
+including but not limited to IPv6 Transition Mechanisms or VPNs.
 
 Please note that Multicast DNS [RFC6762] or similar link-local name resolution
 protocols are not considered in scope of this document.
