@@ -4,8 +4,8 @@
 
 IPv6 operations                                               O. Caletka
 Internet-Draft                                                  RIPE NCC
-Intended status: Informational                               6 July 2025
-Expires: 7 January 2026
+Intended status: Informational                              19 July 2025
+Expires: 20 January 2026
 
 
     A recommendation for filtering address records in stub resolvers
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2026.
+   This Internet-Draft will expire on 20 January 2026.
 
 Copyright Notice
 
@@ -76,6 +76,7 @@ Table of Contents
      3.1.  Routing table based algorithm
      3.2.  IP address based algorithm
    4.  Connectivity detection considerations
+     4.1.  IPv4 connectivity provided by NAT64
    5.  Filtering DNS results
      5.1.  Filtering IPv4-mapped addresses
    6.  Effects of not doing address record filtering
@@ -99,9 +100,10 @@ Table of Contents
 
    When such a host is connected to a single-stack network, only one DNS
    query needs to be performed: there is no reason for querying for a
-   AAAA record if the host has no IPv6 connectivity, the same way there
-   is no reason to look for an A record if the host has no IPv4
-   connectivity.  Such an optimization however has to consider any
+   AAAA record if the host has no IPv6 connectivity.  Similarly if the
+   host does not have any IPv4 connectivity, neither native nor provided
+   by some other mechanism like NAT64 [RFC6146], querying for a A record
+   is useless.  Such an optimization however has to consider any
    possible means of obtaining connectivity for a particular address
    family, including but not limited to IPv6 Transition Mechanisms or
    VPNs.
@@ -196,6 +198,30 @@ Table of Contents
    *  VPN tunnels using different address family than the native address
       family of the host, providing possibly only a limited subset of
       routes (split-mode VPN)
+
+4.1.  IPv4 connectivity provided by NAT64
+
+   Even if the host has no routes towards IPv4 address space and/or no
+   IPv4 addresses on interfaces, it can still have IPv4 connectivity
+   provided by some transition mechanism.  In case of NAT64 [RFC6146],
+   this leads to three possible scenarios:
+
+   1.  464XLAT [RFC6877] is used.  In this case the host has a default
+       route towards the CLAT translator, so the A queries are not
+       suppressed.  This would be also the case for any other transition
+       mechanism providing IPv4 as a service over IPv6 bearer.
+
+   2.  Only DNS64 [RFC6147] is used.  In this case, it is correct not to
+       do A queries because the host cannot send any native IPv4
+       packets.
+
+   3.  The host supports converting IPv4 API calls into IPv6 API calls
+       similarly to Bump-in-the-Host [RFC6535] API translator
+       alternative.  In this case, such a translator can utilize A
+       queries even if the host cannot send any native IPv4 packets.
+       Therefore such an API translator or a high level library like
+       [I-D.ietf-happy-happyeyeballs-v3] SHOULD NOT suppress A queries
+       if it is aware of the presence of NAT64 in the network.
 
 5.  Filtering DNS results
 
@@ -306,9 +332,38 @@ Table of Contents
               <https://pubs.opengroup.org/onlinepubs/9799919799/
               functions/freeaddrinfo.html>.
 
+   [I-D.ietf-happy-happyeyeballs-v3]
+              Pauly, T., Schinazi, D., Jaju, N., and K. Ishibashi,
+              "Happy Eyeballs Version 3: Better Connectivity Using
+              Concurrency", Work in Progress, Internet-Draft, draft-
+              ietf-happy-happyeyeballs-v3-01, 4 July 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-happy-
+              happyeyeballs-v3-01>.
+
    [IANA]     "IANA IPv6 Special-Purpose Address Registry", n.d.,
               <https://www.iana.org/assignments/iana-ipv6-special-
               registry>.
+
+   [RFC6146]  Bagnulo, M., Matthews, P., and I. van Beijnum, "Stateful
+              NAT64: Network Address and Protocol Translation from IPv6
+              Clients to IPv4 Servers", RFC 6146, DOI 10.17487/RFC6146,
+              April 2011, <https://www.rfc-editor.org/rfc/rfc6146>.
+
+   [RFC6147]  Bagnulo, M., Sullivan, A., Matthews, P., and I. van
+              Beijnum, "DNS64: DNS Extensions for Network Address
+              Translation from IPv6 Clients to IPv4 Servers", RFC 6147,
+              DOI 10.17487/RFC6147, April 2011,
+              <https://www.rfc-editor.org/rfc/rfc6147>.
+
+   [RFC6535]  Huang, B., Deng, H., and T. Savolainen, "Dual-Stack Hosts
+              Using "Bump-in-the-Host" (BIH)", RFC 6535,
+              DOI 10.17487/RFC6535, February 2012,
+              <https://www.rfc-editor.org/rfc/rfc6535>.
+
+   [RFC6877]  Mawatari, M., Kawashima, M., and C. Byrne, "464XLAT:
+              Combination of Stateful and Stateless Translation",
+              RFC 6877, DOI 10.17487/RFC6877, April 2013,
+              <https://www.rfc-editor.org/rfc/rfc6877>.
 
 Acknowledgments
 
