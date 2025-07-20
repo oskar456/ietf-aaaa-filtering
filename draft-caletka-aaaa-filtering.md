@@ -88,7 +88,7 @@ needs to be performed: there is no reason for querying for a AAAA record if the
 host has no IPv6 connectivity. Similarly if the host does not have any IPv4
 connectivity, neither native nor provided by some other mechanism like NAT64
 [RFC6146],
-querying for a A record is useless. Such an optimization however has to consider
+querying for an A record is useless. Such an optimization however has to consider
 any possible means of obtaining connectivity for a particular address family,
 including but not limited to IPv6 Transition Mechanisms or VPNs.
 
