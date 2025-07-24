@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-22T01:03:25.190523+00:00",
+  "timestamp": "2025-07-24T01:03:38.918895+00:00",
   "repo": "oskar456/ietf-aaaa-filtering",
   "labels": [
     {
@@ -49,7 +49,40 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 3,
+      "id": "I_kwDOOzohls7B1msG",
+      "title": "Mention why filtering AAAA is useful",
+      "url": "https://github.com/oskar456/ietf-aaaa-filtering/issues/3",
+      "state": "OPEN",
+      "author": "oskar456",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "In traditional DNS resolver you need to wait for both queries to finish to be able to order and return the result. Since it is UDP, packets can be lost and you have to wait for retransmission. So doing double query makes the proces twice as vulnerable for packet loss and similar network issues.",
+      "createdAt": "2025-07-22T10:13:34Z",
+      "updatedAt": "2025-07-22T10:13:34Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOOzohls7B1ovq",
+      "title": "Mention draft-ietf-dnssd-multi-qtypes as a possible remedy",
+      "url": "https://github.com/oskar456/ietf-aaaa-filtering/issues/4",
+      "state": "OPEN",
+      "author": "oskar456",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "This drafts allows multiple QTYPE queries in one query. This would make AAAA querying basically free, so the recommendation would probably be, if you do multi-qtype, always ask for everything.",
+      "createdAt": "2025-07-22T10:15:30Z",
+      "updatedAt": "2025-07-22T10:15:30Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
