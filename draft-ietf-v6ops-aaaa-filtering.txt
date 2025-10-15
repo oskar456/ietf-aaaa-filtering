@@ -4,12 +4,12 @@
 
 IPv6 operations                                               O. Caletka
 Internet-Draft                                                  RIPE NCC
-Intended status: Informational                              20 July 2025
-Expires: 21 January 2026
+Intended status: Informational                           15 October 2025
+Expires: 18 April 2026
 
 
     A recommendation for filtering address records in stub resolvers
-                  draft-caletka-aaaa-filtering-latest
+                 draft-ietf-v6ops-aaaa-filtering-latest
 
 Abstract
 
@@ -25,9 +25,9 @@ About This Document
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at
-   https://oskar456.github.io/ietf-aaaa-filtering/draft-caletka-aaaa-
+   https://oskar456.github.io/ietf-aaaa-filtering/draft-ietf-v6ops-aaaa-
    filtering.html.  Status information for this document may be found at
-   https://datatracker.ietf.org/doc/draft-caletka-aaaa-filtering/.
+   https://datatracker.ietf.org/doc/draft-ietf-v6ops-aaaa-filtering/.
 
    Discussion of this document takes place on the v6ops Working Group
    mailing list (mailto:v6ops@ietf.org), which is archived at
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 January 2026.
+   This Internet-Draft will expire on 18 April 2026.
 
 Copyright Notice
 
@@ -72,19 +72,20 @@ Table of Contents
 
    1.  Introduction
    2.  Conventions and Definitions
-   3.  Connectivity detection algorithms
-     3.1.  Routing table based algorithm
-     3.2.  IP address based algorithm
-   4.  Connectivity detection considerations
-     4.1.  IPv4 connectivity provided by NAT64
-   5.  Filtering DNS results
-     5.1.  Filtering IPv4-mapped addresses
-   6.  Effects of not doing address record filtering
-   7.  Security Considerations
-   8.  IANA Considerations
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+   3.  Problem statement
+   4.  Connectivity detection algorithms
+     4.1.  Routing table based algorithm
+     4.2.  IP address based algorithm
+   5.  Connectivity detection considerations
+     5.1.  IPv4 connectivity provided by NAT64
+   6.  Filtering DNS results
+     6.1.  Filtering IPv4-mapped addresses
+   7.  Effects of not doing address record filtering
+   8.  Security Considerations
+   9.  IANA Considerations
+   10. References
+     10.1.  Normative References
+     10.2.  Informative References
    Acknowledgments
    Author's Address
 
@@ -119,13 +120,31 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Connectivity detection algorithms
+3.  Problem statement
+
+   Traditional DNS resolution uses UDP messages, capable of carrying
+   only either A query and response containing IPv4 addresses or AAAA
+   query and response containing IPv6 addresses.  A simple dual-stack
+   capable host has to wait until both queries are finished before it
+   can sort the results and start establishing the connection.
+
+   If the network suffers from packet loss, finishing these two DNS
+   queries can cause delays noticeable by users.  Not resolving
+   addresses for the address family the host is not connected to can
+   thus mitigate impact of slow DNS resolution without compromising
+   functionality.
+
+   Combining A and AAAA queries into a single DNS query
+   [I-D.ietf-dnssd-multi-qtypes] mitigates the issue as well, however
+   this depends on particular resolver supporting this feature.
+
+4.  Connectivity detection algorithms
 
    Whenever an application asks the stub resolver to resolve a domain
    name without specifying the address family, the stub resolver follows
    one of the algorithms specified below:
 
-3.1.  Routing table based algorithm
+4.1.  Routing table based algorithm
 
    This algorithm assumes that the host has connectivity of particular
    address family if there is at least one route to a destination that
@@ -155,7 +174,7 @@ Table of Contents
 
        *  A query for IPv4
 
-3.2.  IP address based algorithm
+4.2.  IP address based algorithm
 
    As an alternative to analyzing the routing tables, the stub resolver
    might choose to determine the connectivity by looking at the
@@ -182,7 +201,7 @@ Table of Contents
 
        *  A query for IPv4
 
-4.  Connectivity detection considerations
+5.  Connectivity detection considerations
 
    When detecting the connectivity presence, it is necessary to consider
    ANY routes towards non Link-Local address space and/or IP addresses
@@ -199,7 +218,7 @@ Table of Contents
       family of the host, providing possibly only a limited subset of
       routes (split-mode VPN)
 
-4.1.  IPv4 connectivity provided by NAT64
+5.1.  IPv4 connectivity provided by NAT64
 
    Even if the host has no routes towards IPv4 address space and/or no
    IPv4 addresses on interfaces, it can still have IPv4 connectivity
@@ -223,7 +242,7 @@ Table of Contents
        [I-D.ietf-happy-happyeyeballs-v3] SHOULD NOT suppress A queries
        if it is aware of the presence of NAT64 in the network.
 
-5.  Filtering DNS results
+6.  Filtering DNS results
 
    If the host does not have full connectivity for both address families
    (there are no default gateways for both IPv4 and IPv6), it is
@@ -237,7 +256,7 @@ Table of Contents
    an entry in the routing table from the list of DNS query results sent
    to the application.
 
-5.1.  Filtering IPv4-mapped addresses
+6.1.  Filtering IPv4-mapped addresses
 
    As an extension to the filtering of DNS results, the stub resolver
    MAY also remove IPv4-mapped IPv6 addresses (Section 2.5.5.2 of
@@ -250,7 +269,7 @@ Table of Contents
    family confusion for applications using IPv4 compatibility of IPv6
    sockets [RFC3493].
 
-6.  Effects of not doing address record filtering
+7.  Effects of not doing address record filtering
 
    The optimization described above is OPTIONAL.  A stub resolver of a
    dual-stack capable host can always issue both A and AAAA queries to
@@ -261,13 +280,14 @@ Table of Contents
    iterate through the list of addresses and finally select the one
    using the same address family as the connectivity of the host.
 
-   However, it should be noted that such behavior increases load on the
+   However, it should be noted that such behavior is not only less
+   robust against DNS resolution delays but also increases load on the
    DNS system.  If such an optimization is removed (for instance by a
    software update) on a large single-stack network, this might overload
    parts of the DNS infrastructure, since the number of queries will
    double.
 
-7.  Security Considerations
+8.  Security Considerations
 
    Reducing the number of queries allows an attacker observing the DNS
    traffic to figure out which address families the host uses.
@@ -275,13 +295,13 @@ Table of Contents
    Suddendly disabling the optimization can overload parts of the DNS
    infrastructure due to doubling the number of queries.
 
-8.  IANA Considerations
+9.  IANA Considerations
 
    This document has no IANA actions.
 
-9.  References
+10.  References
 
-9.1.  Normative References
+10.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -320,7 +340,7 @@ Table of Contents
               DOI 10.17487/RFC8305, December 2017,
               <https://www.rfc-editor.org/rfc/rfc8305>.
 
-9.2.  Informative References
+10.2.  Informative References
 
    [CHROME]   "Chrome Host Resolution - IPv6 and connectivity", n.d., <h
               ttps://chromium.googlesource.com/chromium/src/+/0de3ceea88
@@ -331,6 +351,12 @@ Table of Contents
               Specifications Issue 8, IEEE Std 1003.1-2024", n.d.,
               <https://pubs.opengroup.org/onlinepubs/9799919799/
               functions/freeaddrinfo.html>.
+
+   [I-D.ietf-dnssd-multi-qtypes]
+              Bellis, R., "DNS Multiple QTYPEs", Work in Progress,
+              Internet-Draft, draft-ietf-dnssd-multi-qtypes-10, 22
+              September 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-dnssd-multi-qtypes-10>.
 
    [I-D.ietf-happy-happyeyeballs-v3]
               Pauly, T., Schinazi, D., Jaju, N., and K. Ishibashi,
@@ -367,7 +393,9 @@ Table of Contents
 
 Acknowledgments
 
-   TODO acknowledge.
+   The author would like to thank these people for feedback and
+   comments: Massimiliano Stucchi, Nick Buraglio, Jen Linkova, Gert
+   Doering, Philip Homburg, Lorenzo Colitti
 
 Author's Address
 
