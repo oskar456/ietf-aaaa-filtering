@@ -61,6 +61,7 @@ informative:
   RFC6535:
   RFC6877:
   I-D.ietf-happy-happyeyeballs-v3:
+  I-D.ietf-dnssd-multi-qtypes:
 
 ...
 
@@ -98,6 +99,23 @@ protocols are not considered in scope of this document.
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
+
+# Problem statement
+
+Traditional DNS resolution uses UDP messages, capable of carrying only either A
+query and response containing IPv4 addresses or AAAA query and response
+containing IPv6 addresses. A simple dual-stack capable host has to wait until
+both queries are finished before it can sort the results and start establishing
+the connection.
+
+If the network suffers from packet loss, finishing these two DNS queries can
+cause delays noticeable by users. Not resolving addresses for the address family
+the host is not connected to can thus mitigate impact of slow DNS resolution
+without compromising functionality.
+
+Combining A and AAAA queries into a single DNS query
+[I-D.ietf-dnssd-multi-qtypes] mitigates the issue as well, however this depends
+on particular resolver supporting this feature.
 
 # Connectivity detection algorithms
 
@@ -213,10 +231,11 @@ entry in the routing table will be immediately refused, so a properly written
 application will quickly iterate through the list of addresses and finally
 select the one using the same address family as the connectivity of the host.
 
-However, it should be noted that such behavior increases load on the DNS system.
-If such an optimization is removed (for instance by a software update) on a
-large single-stack network, this might overload parts of the DNS
-infrastructure, since the number of queries will double.
+However, it should be noted that such behavior is not only less robust against
+DNS resolution delays but also increases load on the DNS system.  If such an
+optimization is removed (for instance by a software update) on a large
+single-stack network, this might overload parts of the DNS infrastructure, since
+the number of queries will double.
 
 # Security Considerations
 
