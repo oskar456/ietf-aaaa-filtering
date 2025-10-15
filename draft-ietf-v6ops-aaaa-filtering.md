@@ -12,7 +12,7 @@ title: "A recommendation for filtering address records in stub resolvers"
 abbrev: "AAAA filtering considerations"
 category: info
 
-docname: draft-caletka-aaaa-filtering-latest
+docname: draft-ietf-v6ops-aaaa-filtering-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
@@ -30,7 +30,7 @@ venue:
   mail: v6ops@ietf.org
   arch: https://mailarchive.ietf.org/arch/browse/v6ops/
   github: oskar456/ietf-aaaa-filtering
-  latest: https://oskar456.github.io/ietf-aaaa-filtering/draft-caletka-aaaa-filtering.html
+  latest: https://oskar456.github.io/ietf-aaaa-filtering/draft-ietf-v6ops-aaaa-filtering.html
 
 author:
  -
