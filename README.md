@@ -1,13 +1,13 @@
 <!-- regenerate: on (set to off if you edit this file) -->
 
-# A recommendation for filtering AAAA records in stub resolvers
+# A recommendation for filtering address records in stub resolvers
 
-This is the working area for the individual Internet-Draft, "A recommendation for filtering AAAA records in stub resolvers".
+This is the working area for the IETF [V6OPS Working Group](https://datatracker.ietf.org/group/v6ops/documents/) Internet-Draft, "A recommendation for filtering address records in stub resolvers".
 
-* [Editor's Copy](https://oskar456.github.io/ietf-aaaa-filtering/#go.draft-caletka-aaaa-filtering.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-caletka-aaaa-filtering)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-caletka-aaaa-filtering)
-* [Compare Editor's Copy to Individual Draft](https://oskar456.github.io/ietf-aaaa-filtering/#go.draft-caletka-aaaa-filtering.diff)
+* [Editor's Copy](https://oskar456.github.io/ietf-aaaa-filtering/#go.draft-ietf-v6ops-aaaa-filtering.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-v6ops-aaaa-filtering)
+* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-v6ops-aaaa-filtering)
+* [Compare Editor's Copy to Working Group Draft](https://oskar456.github.io/ietf-aaaa-filtering/#go.draft-ietf-v6ops-aaaa-filtering.diff)
 
 
 ## Contributing
@@ -15,9 +15,8 @@ This is the working area for the individual Internet-Draft, "A recommendation fo
 See the
 [guidelines for contributions](https://github.com/oskar456/ietf-aaaa-filtering/blob/main/CONTRIBUTING.md).
 
-Contributions can be made by creating pull requests.
-The GitHub interface supports creating pull requests using the Edit (✏) button.
-
+The contributing file also has tips on how to make contributions, if you
+don't already know how to do that.
 
 ## Command Line Usage
 
