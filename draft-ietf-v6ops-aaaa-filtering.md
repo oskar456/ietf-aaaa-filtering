@@ -256,4 +256,7 @@ This document has no IANA actions.
 # Acknowledgments
 {:numbered="false"}
 
-TODO acknowledge.
+The author would like to thank these people for feedback and comments:
+Massimiliano Stucchi, Nick Buraglio, Jen Linkova, Gert Doering, Philip Homburg,
+Lorenzo Colitti
+
