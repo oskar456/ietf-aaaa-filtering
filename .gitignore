@@ -18,6 +18,7 @@
 /versioned/
 archive.json
 draft-caletka-aaaa-filtering.xml
+draft-ietf-v6ops-aaaa-filtering.xml
 Gemfile.lock
 package-lock.json
 report.xml
