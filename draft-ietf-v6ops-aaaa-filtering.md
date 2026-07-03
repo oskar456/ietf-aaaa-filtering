@@ -108,14 +108,21 @@ containing IPv6 addresses. A simple dual-stack capable host has to wait until
 both queries are finished before it can sort the results and start establishing
 the connection.
 
-If the network suffers from packet loss, finishing these two DNS queries can
-cause delays noticeable by users. Not resolving addresses for the address family
-the host is not connected to can thus mitigate impact of slow DNS resolution
-without compromising functionality.
+If the network suffers from packet loss, or the DNS server drops queries for
+unknown resource record types, finishing these two DNS queries can cause delays
+noticeable by users. Not resolving addresses for the address family the host is
+not connected to can thus mitigate impact of slow DNS resolution without
+compromising functionality.
 
 Combining A and AAAA queries into a single DNS query
 [I-D.ietf-dnssd-multi-qtypes] mitigates the issue as well, however this depends
 on particular resolver supporting this feature.
+
+Another approach mitigating this issue is the Happy Eyeballs algorithm version 2
+or newer [RFC8305] which utilizes asynchronous DNS queries and asynchronous
+connection attempts. Platforms utilizing Happy Eyeballs can therefore let the
+algorithm query both A and AAAA records all the time without any impact on the
+user experience.
 
 # Connectivity detection algorithms
 
@@ -183,7 +190,7 @@ transition mechanism. In case of NAT64 [RFC6146], this leads to three possible
 scenarios:
 
   1. 464XLAT [RFC6877] is used. In this case the host has a default route
-     towards the CLAT translator, so the A queries are not suppressed.  This
+     towards the CLAT translator, so the A queries are not suppressed. This
      would be also the case for any other transition mechanism providing IPv4 as
      a service over IPv6 bearer.
 
@@ -201,7 +208,7 @@ scenarios:
 
 If the host does not have full connectivity for both address families (there
 are no default gateways for both IPv4 and IPv6), it is possible that the IP(v6)
-address obtained from the DNS falls into the address space not covered by a
+address obtained from the DNS falls into the address space not covered by any
 route. This should not be problem for a properly written application, since
 [RFC6724] requires applications to try connecting to all addresses received from
 the stub resolver.
@@ -242,7 +249,7 @@ the number of queries will double.
 Reducing the number of queries allows an attacker observing the DNS traffic to
 figure out which address families the host uses.
 
-Suddendly disabling the optimization can overload parts of the DNS
+Suddenly disabling the optimization can overload parts of the DNS
 infrastructure due to doubling the number of queries.
 
 
