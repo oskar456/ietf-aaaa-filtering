@@ -4,8 +4,8 @@
 
 IPv6 operations                                               O. Caletka
 Internet-Draft                                                  RIPE NCC
-Intended status: Informational                           15 October 2025
-Expires: 18 April 2026
+Intended status: Informational                               3 July 2026
+Expires: 4 January 2027
 
 
     A recommendation for filtering address records in stub resolvers
@@ -52,11 +52,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 April 2026.
+   This Internet-Draft will expire on 4 January 2027.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -128,7 +128,8 @@ Table of Contents
    capable host has to wait until both queries are finished before it
    can sort the results and start establishing the connection.
 
-   If the network suffers from packet loss, finishing these two DNS
+   If the network suffers from packet loss, or the DNS server drops
+   queries for unknown resource record types, finishing these two DNS
    queries can cause delays noticeable by users.  Not resolving
    addresses for the address family the host is not connected to can
    thus mitigate impact of slow DNS resolution without compromising
@@ -137,6 +138,13 @@ Table of Contents
    Combining A and AAAA queries into a single DNS query
    [I-D.ietf-dnssd-multi-qtypes] mitigates the issue as well, however
    this depends on particular resolver supporting this feature.
+
+   Another approach mitigating this issue is the Happy Eyeballs
+   algorithm version 2 or newer [RFC8305] which utilizes asynchronous
+   DNS queries and asynchronous connection attempts.  Platforms
+   utilizing Happy Eyeballs can therefore let the algorithm query both A
+   and AAAA records all the time without any impact on the user
+   experience.
 
 4.  Connectivity detection algorithms
 
@@ -247,9 +255,10 @@ Table of Contents
    If the host does not have full connectivity for both address families
    (there are no default gateways for both IPv4 and IPv6), it is
    possible that the IP(v6) address obtained from the DNS falls into the
-   address space not covered by a route.  This should not be problem for
-   a properly written application, since [RFC6724] requires applications
-   to try connecting to all addresses received from the stub resolver.
+   address space not covered by any route.  This should not be problem
+   for a properly written application, since [RFC6724] requires
+   applications to try connecting to all addresses received from the
+   stub resolver.
 
    However, in order to minimize the impact on poorly designed
    applications, the stub resolver MAY remove addresses not covered by
@@ -292,7 +301,7 @@ Table of Contents
    Reducing the number of queries allows an attacker observing the DNS
    traffic to figure out which address families the host uses.
 
-   Suddendly disabling the optimization can overload parts of the DNS
+   Suddenly disabling the optimization can overload parts of the DNS
    infrastructure due to doubling the number of queries.
 
 9.  IANA Considerations
@@ -310,7 +319,7 @@ Table of Contents
 
    [RFC3493]  Gilligan, R., Thomson, S., Bound, J., McCann, J., and W.
               Stevens, "Basic Socket Interface Extensions for IPv6",
-              RFC 3493, DOI 10.17487/RFC3493, February 2003,
+              RFC 3493, DOI 10.17487/RFC3493, March 2003,
               <https://www.rfc-editor.org/rfc/rfc3493>.
 
    [RFC3927]  Cheshire, S., Aboba, B., and E. Guttman, "Dynamic
@@ -342,10 +351,9 @@ Table of Contents
 
 10.2.  Informative References
 
-   [CHROME]   "Chrome Host Resolution - IPv6 and connectivity", n.d., <h
-              ttps://chromium.googlesource.com/chromium/src/+/0de3ceea88
-              1115dd18e79e1d9ea4e090c655996b/net/dns/README.md#IPv6-and-
-              connectivity>.
+   [CHROME]   "Chrome Host Resolution - IPv6 and connectivity", n.d.,
+              <https://chromium.googlesource.com/chromium/src/+/0de3ceea881115dd18e79e1d9ea4e090c655996b/
+              net/dns/README.md#IPv6-and-connectivity>.
 
    [GAI]      "freeaddrinfo, getaddrinfo - The Open Group Base
               Specifications Issue 8, IEEE Std 1003.1-2024", n.d.,
@@ -354,17 +362,17 @@ Table of Contents
 
    [I-D.ietf-dnssd-multi-qtypes]
               Bellis, R., "DNS Multiple QTYPEs", Work in Progress,
-              Internet-Draft, draft-ietf-dnssd-multi-qtypes-10, 22
-              September 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-dnssd-multi-qtypes-10>.
+              Internet-Draft, draft-ietf-dnssd-multi-qtypes-14, 27
+              February 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-dnssd-multi-qtypes-14>.
 
    [I-D.ietf-happy-happyeyeballs-v3]
               Pauly, T., Schinazi, D., Jaju, N., and K. Ishibashi,
               "Happy Eyeballs Version 3: Better Connectivity Using
               Concurrency", Work in Progress, Internet-Draft, draft-
-              ietf-happy-happyeyeballs-v3-01, 4 July 2025,
+              ietf-happy-happyeyeballs-v3-04, 1 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-happy-
-              happyeyeballs-v3-01>.
+              happyeyeballs-v3-04>.
 
    [IANA]     "IANA IPv6 Special-Purpose Address Registry", n.d.,
               <https://www.iana.org/assignments/iana-ipv6-special-
