@@ -61,7 +61,7 @@ informative:
   RFC6535:
   RFC6877:
   I-D.ietf-happy-happyeyeballs-v3:
-  I-D.ietf-dnssd-multi-qtypes:
+  RFC10029:
 
 ...
 
@@ -115,7 +115,7 @@ not connected to can thus mitigate impact of slow DNS resolution without
 compromising functionality.
 
 Combining A and AAAA queries into a single DNS query
-[I-D.ietf-dnssd-multi-qtypes] mitigates the issue as well, however this depends
+[RFC10029] mitigates the issue as well, however this depends
 on particular resolver supporting this feature.
 
 Another approach mitigating this issue is the Happy Eyeballs algorithm version 2
