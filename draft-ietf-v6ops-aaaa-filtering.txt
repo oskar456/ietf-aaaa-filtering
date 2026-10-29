@@ -4,8 +4,8 @@
 
 IPv6 operations                                               O. Caletka
 Internet-Draft                                                  RIPE NCC
-Intended status: Informational                               3 July 2026
-Expires: 4 January 2027
+Intended status: Informational                           29 October 2026
+Expires: 2 May 2027
 
 
     A recommendation for filtering address records in stub resolvers
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 January 2027.
+   This Internet-Draft will expire on 2 May 2027.
 
 Copyright Notice
 
@@ -135,9 +135,9 @@ Table of Contents
    thus mitigate impact of slow DNS resolution without compromising
    functionality.
 
-   Combining A and AAAA queries into a single DNS query
-   [I-D.ietf-dnssd-multi-qtypes] mitigates the issue as well, however
-   this depends on particular resolver supporting this feature.
+   Combining A and AAAA queries into a single DNS query [RFC10029]
+   mitigates the issue as well, however this depends on particular
+   resolver supporting this feature.
 
    Another approach mitigating this issue is the Happy Eyeballs
    algorithm version 2 or newer [RFC8305] which utilizes asynchronous
@@ -360,12 +360,6 @@ Table of Contents
               <https://pubs.opengroup.org/onlinepubs/9799919799/
               functions/freeaddrinfo.html>.
 
-   [I-D.ietf-dnssd-multi-qtypes]
-              Bellis, R., "DNS Multiple QTYPEs", Work in Progress,
-              Internet-Draft, draft-ietf-dnssd-multi-qtypes-14, 27
-              February 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-dnssd-multi-qtypes-14>.
-
    [I-D.ietf-happy-happyeyeballs-v3]
               Pauly, T., Schinazi, D., Jaju, N., and K. Ishibashi,
               "Happy Eyeballs Version 3: Better Connectivity Using
@@ -398,6 +392,10 @@ Table of Contents
               Combination of Stateful and Stateless Translation",
               RFC 6877, DOI 10.17487/RFC6877, April 2013,
               <https://www.rfc-editor.org/rfc/rfc6877>.
+
+   [RFC10029] Bellis, R., "DNS Multiple QTYPEs", RFC 10029,
+              DOI 10.17487/RFC10029, July 2026,
+              <https://www.rfc-editor.org/rfc/rfc10029>.
 
 Acknowledgments
 
