@@ -34,7 +34,7 @@ venue:
 
 author:
  -
-    fullname: Ondřej Caletka
+    fullname: Ondrej Caletka
     organization: RIPE NCC
     email: ondrej@caletka.cz
 
@@ -68,30 +68,29 @@ informative:
 --- abstract
 
 Since IPv4 and IPv6 addresses are represented by different resource records in
-the Domain Name System, operating systems capable of running both IPv4 and IPv6 need to execute
-two queries when resolving a host name. This document discusses the conditions under
-which a stub resolver can optimize the process by not sending one of the
-queries if the host is connected to a single-stack network.
+the Domain Name System, operating systems capable of running both IPv4 and IPv6
+need to execute two queries when resolving a host name. This document discusses
+the conditions under which a stub resolver can optimize the process by not
+sending one of the queries if the host is connected to a single-stack network.
 
 --- middle
 
 # Introduction
 
-Most operating systems support both the IPv6 and the IPv4 networking stack. When such a
-host is connected to a dual-stack network, whenever a process requests
+Most operating systems support both the IPv6 and the IPv4 networking stack. When
+such a host is connected to a dual-stack network, whenever a process requests
 resolution of a DNS name, two DNS queries need to be issued - one for an A
-record representing an IPv4 address, and one for a AAAA record representing an IPv6
-address. The results of such queries are then merged and ordered based on
+record representing an IPv4 address, and one for a AAAA record representing an
+IPv6 address. The results of such queries are then merged and ordered based on
 [RFC6724] or used as input for the Happy Eyeballs algorithm [RFC8305].
 
 When such a host is connected to a single-stack network, only one DNS query
 needs to be performed: there is no reason for querying for a AAAA record if the
 host has no IPv6 connectivity. Similarly if the host does not have any IPv4
 connectivity, neither native nor provided by some other mechanism like NAT64
-[RFC6146],
-querying for an A record is useless. Such an optimization however has to consider
-any possible means of obtaining connectivity for a particular address family,
-including but not limited to IPv6 Transition Mechanisms or VPNs.
+[RFC6146], querying for an A record is useless. Such an optimization however has
+to consider any possible means of obtaining connectivity for a particular
+address family, including but not limited to IPv6 Transition Mechanisms or VPNs.
 
 Please note that Multicast DNS [RFC6762] or similar link-local name resolution
 protocols are not considered in scope of this document.
@@ -121,8 +120,8 @@ on particular resolver supporting this feature.
 Another approach mitigating this issue is the Happy Eyeballs algorithm version 2
 or newer [RFC8305] which utilizes asynchronous DNS queries and asynchronous
 connection attempts. Platforms utilizing Happy Eyeballs can therefore let the
-algorithm query both A and AAAA records all the time without any impact on the
-user experience.
+algorithm query both A and AAAA records all the time without any significant
+impact on the user experience.
 
 # Connectivity detection algorithms
 
@@ -134,14 +133,18 @@ specified below:
 
 This algorithm assumes that the host has connectivity of particular address
 family if there is at least one route to a destination that is not in Link-Local
-address space. If there are only routes for destinations in the Link-Local
+address space. This includes both routes with specified next hop as well as
+routes for directly connected networks.
+
+If there are only routes for destinations in the Link-Local
 address space, the host is not able to send any packets towards any destination
 address that could be possibly obtained from the DNS. Therefore, sending an
 address query for that particular address family is unnecessary.
 
 For each address family supported by the operating system:
 
- 1. Read the routing table of the address family;
+ 1. Read the routing table of the address family, including routes for directly
+    connected networks;
  2. Remove all the routes towards Link-Local destinations from the routing table, ie.:
     * remove routes towards addresses from Section 2.5.6 of [RFC4291] from the IPv6 routing table
     * remove routes towards addresses from [RFC3927] from the IPv4 routing table
@@ -239,7 +242,7 @@ application will quickly iterate through the list of addresses and finally
 select the one using the same address family as the connectivity of the host.
 
 However, it should be noted that such behavior is not only less robust against
-DNS resolution delays but also increases load on the DNS system.  If such an
+DNS resolution delays but also increases load on the DNS system. If such an
 optimization is removed (for instance by a software update) on a large
 single-stack network, this might overload parts of the DNS infrastructure, since
 the number of queries will double.
