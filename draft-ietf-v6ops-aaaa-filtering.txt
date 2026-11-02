@@ -4,8 +4,8 @@
 
 IPv6 operations                                               O. Caletka
 Internet-Draft                                                  RIPE NCC
-Intended status: Informational                           29 October 2026
-Expires: 2 May 2027
+Intended status: Informational                           2 November 2026
+Expires: 6 May 2027
 
 
     A recommendation for filtering address records in stub resolvers
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 May 2027.
+   This Internet-Draft will expire on 6 May 2027.
 
 Copyright Notice
 
@@ -143,8 +143,8 @@ Table of Contents
    algorithm version 2 or newer [RFC8305] which utilizes asynchronous
    DNS queries and asynchronous connection attempts.  Platforms
    utilizing Happy Eyeballs can therefore let the algorithm query both A
-   and AAAA records all the time without any impact on the user
-   experience.
+   and AAAA records all the time without any significant impact on the
+   user experience.
 
 4.  Connectivity detection algorithms
 
@@ -156,15 +156,19 @@ Table of Contents
 
    This algorithm assumes that the host has connectivity of particular
    address family if there is at least one route to a destination that
-   is not in Link-Local address space.  If there are only routes for
-   destinations in the Link-Local address space, the host is not able to
-   send any packets towards any destination address that could be
-   possibly obtained from the DNS.  Therefore, sending an address query
-   for that particular address family is unnecessary.
+   is not in Link-Local address space.  This includes both routes with
+   specified next hop as well as routes for directly connected networks.
+
+   If there are only routes for destinations in the Link-Local address
+   space, the host is not able to send any packets towards any
+   destination address that could be possibly obtained from the DNS.
+   Therefore, sending an address query for that particular address
+   family is unnecessary.
 
    For each address family supported by the operating system:
 
-   1.  Read the routing table of the address family;
+   1.  Read the routing table of the address family, including routes
+       for directly connected networks;
 
    2.  Remove all the routes towards Link-Local destinations from the
        routing table, ie.:
@@ -364,9 +368,9 @@ Table of Contents
               Pauly, T., Schinazi, D., Jaju, N., and K. Ishibashi,
               "Happy Eyeballs Version 3: Better Connectivity Using
               Concurrency", Work in Progress, Internet-Draft, draft-
-              ietf-happy-happyeyeballs-v3-04, 1 July 2026,
+              ietf-happy-happyeyeballs-v3-05, 2 November 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-happy-
-              happyeyeballs-v3-04>.
+              happyeyeballs-v3-05>.
 
    [IANA]     "IANA IPv6 Special-Purpose Address Registry", n.d.,
               <https://www.iana.org/assignments/iana-ipv6-special-
@@ -405,6 +409,6 @@ Acknowledgments
 
 Author's Address
 
-   Ondřej Caletka
+   Ondrej Caletka
    RIPE NCC
    Email: ondrej@caletka.cz

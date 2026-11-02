@@ -5,13 +5,13 @@
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
 <title>A recommendation for filtering address records in stub resolvers</title>
-<meta content="Ondřej Caletka" name="author">
+<meta content="Ondrej Caletka" name="author">
 <meta content="
        Since IPv4 and IPv6 addresses are represented by different resource records in
-the Domain Name System, operating systems capable of running both IPv4 and IPv6 need to execute
-two queries when resolving a host name. This document discusses the conditions under
-which a stub resolver can optimize the process by not sending one of the
-queries if the host is connected to a single-stack network. 
+the Domain Name System, operating systems capable of running both IPv4 and IPv6
+need to execute two queries when resolving a host name. This document discusses
+the conditions under which a stub resolver can optimize the process by not
+sending one of the queries if the host is connected to a single-stack network. 
     " name="description">
 <meta content="xml2rfc 3.34.1" name="generator">
 <meta content="IPv6" name="keyword">
@@ -1047,11 +1047,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">AAAA filtering considerations</td>
-<td class="right">October 2026</td>
+<td class="right">November 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Caletka</td>
-<td class="center">Expires 2 May 2027</td>
+<td class="center">Expires 6 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1064,12 +1064,12 @@ svg {
 <dd class="internet-draft">draft-ietf-v6ops-aaaa-filtering-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-10-29" class="published">29 October 2026</time>
+<time datetime="2026-11-02" class="published">2 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-02">2 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-06">6 May 2027</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1083,10 +1083,10 @@ svg {
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">Since IPv4 and IPv6 addresses are represented by different resource records in
-the Domain Name System, operating systems capable of running both IPv4 and IPv6 need to execute
-two queries when resolving a host name. This document discusses the conditions under
-which a stub resolver can optimize the process by not sending one of the
-queries if the host is connected to a single-stack network.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+the Domain Name System, operating systems capable of running both IPv4 and IPv6
+need to execute two queries when resolving a host name. This document discusses
+the conditions under which a stub resolver can optimize the process by not
+sending one of the queries if the host is connected to a single-stack network.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1123,7 +1123,7 @@ queries if the host is connected to a single-stack network.<a href="#section-abs
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1223,20 +1223,19 @@ queries if the host is connected to a single-stack network.<a href="#section-abs
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">Most operating systems support both the IPv6 and the IPv4 networking stack. When such a
-host is connected to a dual-stack network, whenever a process requests
+<p id="section-1-1">Most operating systems support both the IPv6 and the IPv4 networking stack. When
+such a host is connected to a dual-stack network, whenever a process requests
 resolution of a DNS name, two DNS queries need to be issued - one for an A
-record representing an IPv4 address, and one for a AAAA record representing an IPv6
-address. The results of such queries are then merged and ordered based on
+record representing an IPv4 address, and one for a AAAA record representing an
+IPv6 address. The results of such queries are then merged and ordered based on
 <span>[<a href="#RFC6724" class="cite xref">RFC6724</a>]</span> or used as input for the Happy Eyeballs algorithm <span>[<a href="#RFC8305" class="cite xref">RFC8305</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">When such a host is connected to a single-stack network, only one DNS query
 needs to be performed: there is no reason for querying for a AAAA record if the
 host has no IPv6 connectivity. Similarly if the host does not have any IPv4
 connectivity, neither native nor provided by some other mechanism like NAT64
-<span>[<a href="#RFC6146" class="cite xref">RFC6146</a>]</span>,
-querying for an A record is useless. Such an optimization however has to consider
-any possible means of obtaining connectivity for a particular address family,
-including but not limited to IPv6 Transition Mechanisms or VPNs.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<span>[<a href="#RFC6146" class="cite xref">RFC6146</a>]</span>, querying for an A record is useless. Such an optimization however has
+to consider any possible means of obtaining connectivity for a particular
+address family, including but not limited to IPv6 Transition Mechanisms or VPNs.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">Please note that Multicast DNS <span>[<a href="#RFC6762" class="cite xref">RFC6762</a>]</span> or similar link-local name resolution
 protocols are not considered in scope of this document.<a href="#section-1-3" class="pilcrow">¶</a></p>
 </section>
@@ -1273,8 +1272,8 @@ on particular resolver supporting this feature.<a href="#section-3-3" class="pil
 <p id="section-3-4">Another approach mitigating this issue is the Happy Eyeballs algorithm version 2
 or newer <span>[<a href="#RFC8305" class="cite xref">RFC8305</a>]</span> which utilizes asynchronous DNS queries and asynchronous
 connection attempts. Platforms utilizing Happy Eyeballs can therefore let the
-algorithm query both A and AAAA records all the time without any impact on the
-user experience.<a href="#section-3-4" class="pilcrow">¶</a></p>
+algorithm query both A and AAAA records all the time without any significant
+impact on the user experience.<a href="#section-3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="connectivity-detection-algorithms">
@@ -1292,34 +1291,37 @@ specified below:<a href="#section-4-1" class="pilcrow">¶</a></p>
         </h3>
 <p id="section-4.1-1">This algorithm assumes that the host has connectivity of particular address
 family if there is at least one route to a destination that is not in Link-Local
-address space. If there are only routes for destinations in the Link-Local
+address space. This includes both routes with specified next hop as well as
+routes for directly connected networks.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">If there are only routes for destinations in the Link-Local
 address space, the host is not able to send any packets towards any destination
 address that could be possibly obtained from the DNS. Therefore, sending an
-address query for that particular address family is unnecessary.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
-<p id="section-4.1-2">For each address family supported by the operating system:<a href="#section-4.1-2" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-4.1-3">
-<li id="section-4.1-3.1">
-            <p id="section-4.1-3.1.1">Read the routing table of the address family;<a href="#section-4.1-3.1.1" class="pilcrow">¶</a></p>
+address query for that particular address family is unnecessary.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1-3">For each address family supported by the operating system:<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.1-4">
+<li id="section-4.1-4.1">
+            <p id="section-4.1-4.1.1">Read the routing table of the address family, including routes for directly
+connected networks;<a href="#section-4.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-4.1-3.2">
-            <p id="section-4.1-3.2.1">Remove all the routes towards Link-Local destinations from the routing table, ie.:<a href="#section-4.1-3.2.1" class="pilcrow">¶</a></p>
+          <li id="section-4.1-4.2">
+            <p id="section-4.1-4.2.1">Remove all the routes towards Link-Local destinations from the routing table, ie.:<a href="#section-4.1-4.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.1-3.2.2.1">
-                <p id="section-4.1-3.2.2.1.1">remove routes towards addresses from Section 2.5.6 of <span>[<a href="#RFC4291" class="cite xref">RFC4291</a>]</span> from the IPv6 routing table<a href="#section-4.1-3.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.1-4.2.2.1">
+                <p id="section-4.1-4.2.2.1.1">remove routes towards addresses from Section 2.5.6 of <span>[<a href="#RFC4291" class="cite xref">RFC4291</a>]</span> from the IPv6 routing table<a href="#section-4.1-4.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-4.1-3.2.2.2">
-                <p id="section-4.1-3.2.2.2.1">remove routes towards addresses from <span>[<a href="#RFC3927" class="cite xref">RFC3927</a>]</span> from the IPv4 routing table<a href="#section-4.1-3.2.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-4.1-4.2.2.2">
+                <p id="section-4.1-4.2.2.2.1">remove routes towards addresses from <span>[<a href="#RFC3927" class="cite xref">RFC3927</a>]</span> from the IPv4 routing table<a href="#section-4.1-4.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li id="section-4.1-3.3">
-            <p id="section-4.1-3.3.1">If the routing table is not empty, send the corresponding name query to the DNS:<a href="#section-4.1-3.3.1" class="pilcrow">¶</a></p>
+          <li id="section-4.1-4.3">
+            <p id="section-4.1-4.3.1">If the routing table is not empty, send the corresponding name query to the DNS:<a href="#section-4.1-4.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.1-3.3.2.1">
-                <p id="section-4.1-3.3.2.1.1">AAAA query for IPv6<a href="#section-4.1-3.3.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.1-4.3.2.1">
+                <p id="section-4.1-4.3.2.1.1">AAAA query for IPv6<a href="#section-4.1-4.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-4.1-3.3.2.2">
-                <p id="section-4.1-3.3.2.2.1">A query for IPv4<a href="#section-4.1-3.3.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-4.1-4.3.2.2">
+                <p id="section-4.1-4.3.2.2.1">A query for IPv4<a href="#section-4.1-4.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -1465,7 +1467,7 @@ entry in the routing table will be immediately refused, so a properly written
 application will quickly iterate through the list of addresses and finally
 select the one using the same address family as the connectivity of the host.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <p id="section-7-2">However, it should be noted that such behavior is not only less robust against
-DNS resolution delays but also increases load on the DNS system.  If such an
+DNS resolution delays but also increases load on the DNS system. If such an
 optimization is removed (for instance by a software update) on a large
 single-stack network, this might overload parts of the DNS infrastructure, since
 the number of queries will double.<a href="#section-7-2" class="pilcrow">¶</a></p>
@@ -1552,7 +1554,7 @@ infrastructure due to doubling the number of queries.<a href="#section-8-2" clas
 <dd class="break"></dd>
 <dt id="I-D.ietf-happy-happyeyeballs-v3">[I-D.ietf-happy-happyeyeballs-v3]</dt>
         <dd>
-<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Schinazi, D.</span>, <span class="refAuthor">Jaju, N.</span>, and <span class="refAuthor">K. Ishibashi</span>, <span class="refTitle">"Happy Eyeballs Version 3: Better Connectivity Using Concurrency"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-happy-happyeyeballs-v3-04</span>, <time datetime="2026-07-01" class="refDate">1 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-happy-happyeyeballs-v3-04">https://datatracker.ietf.org/doc/html/draft-ietf-happy-happyeyeballs-v3-04</a>&gt;</span>. </dd>
+<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Schinazi, D.</span>, <span class="refAuthor">Jaju, N.</span>, and <span class="refAuthor">K. Ishibashi</span>, <span class="refTitle">"Happy Eyeballs Version 3: Better Connectivity Using Concurrency"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-happy-happyeyeballs-v3-05</span>, <time datetime="2026-11-02" class="refDate">2 November 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-happy-happyeyeballs-v3-05">https://datatracker.ietf.org/doc/html/draft-ietf-happy-happyeyeballs-v3-05</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA">[IANA]</dt>
         <dd>
@@ -1599,7 +1601,7 @@ Lorenzo Colitti<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
       </h2>
 <address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Ondřej Caletka</span></div>
+        <div dir="auto" class="left"><span class="fn nameRole">Ondrej Caletka</span></div>
 <div dir="auto" class="left"><span class="org">RIPE NCC</span></div>
 <div class="email">
 <span>Email:</span>
